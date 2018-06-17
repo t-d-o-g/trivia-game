@@ -1,0 +1,24 @@
+{
+  "name": "trivia-game",
+  "version": "1.0.0",
+  "description": "Trivia Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass assets/scss/ -o assets/css/",
+    "sass:watch": "npm run sass && node-sass assets/scss/ -wo assets/css/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t-d-o-g/trivia-game.git"
+  },
+  "author": "Travis Collins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/t-d-o-g/trivia-game/issues"
+  },
+  "homepage": "https://github.com/t-d-o-g/trivia-game#readme",
+  "dependencies": {
+    "node-sass": "^4.9.0"
+  }
+}
