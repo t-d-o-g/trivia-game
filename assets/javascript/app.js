@@ -36,5 +36,13 @@ window.onload = function () {
         answerSummary.then(function (summary) {
             $('.summary').html(summary);
         });
+
+        console.log(answers[0]);
+        for (var i = 0; i < answers.length; i++) {
+            var answer = $('<input>').attr('type', 'radio').attr('id', 'answer-' + i);
+            var label = $('<label>').attr('for', 'answer-' + 1).text(answers[i].title);
+            $('.answers').append(answer).append(label);
+        }
+
     });
 }
