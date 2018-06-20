@@ -1,0 +1,29 @@
+$mdn-blue: #83d0f2;
+$mdn-font:  "x-locale-heading-primary","zillaslab","Palatino","Palatino Linotype","x-locale-heading-secondary","serif";
+
+body {
+    background-image: url("../images/mdn-logo.svg");
+    background-repeat: no-repeat;
+    font-family: $mdn-font;
+}
+
+main {
+    background-image: url("../images/mdn-bg.gif");
+}
+
+.page-header {
+    margin: 3.5rem 2rem;
+    padding: 0 1em;
+    background-color: #000;
+    color: #fff;
+}
+
+.footer {
+    background-color: #222;
+    color: $mdn-blue;
+}
+
+// @include media-breakpoint-down(xs) { ... }
+// @include media-breakpoint-down(sm) { ... }
+// @include media-breakpoint-down(md) { ... }
+// @include media-breakpoint-down(lg) { ... }

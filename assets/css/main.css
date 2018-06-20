@@ -1,0 +1,17 @@
+body {
+  background-image: url("../images/mdn-logo.svg");
+  background-repeat: no-repeat;
+  font-family: "x-locale-heading-primary", "zillaslab", "Palatino", "Palatino Linotype", "x-locale-heading-secondary", "serif"; }
+
+main {
+  background-image: url("../images/mdn-bg.gif"); }
+
+.page-header {
+  margin: 3.5rem 2rem;
+  padding: 0 1em;
+  background-color: #000;
+  color: #fff; }
+
+.footer {
+  background-color: #222;
+  color: #83d0f2; }
