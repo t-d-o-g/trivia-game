@@ -10,6 +10,13 @@ body {
 main {
     background-image: url("../images/mdn-bg.gif");
 }
+ul {
+    list-style-type: none;
+}
+
+input[type="radio"] {
+    margin: 20px;
+}
 
 .page-header {
     margin: 3.5rem 2rem;
@@ -21,6 +28,10 @@ main {
 .footer {
     background-color: #222;
     color: $mdn-blue;
+}
+
+.summary {
+    margin-bottom: 10%;
 }
 
 // @include media-breakpoint-down(xs) { ... }
