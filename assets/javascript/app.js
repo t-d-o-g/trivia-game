@@ -17,7 +17,8 @@ window.onload = function () {
             }
         }
 
-        var correctAnswer = answers[Math.floor(Math.random() * Math.floor(3))];
+        var correctAnswerId = Math.floor(Math.random() * Math.floor(3));
+        var correctAnswer = answers[correctAnswerId];
         var correctAnswerJson = $.ajax({
             url: 'https://developer.mozilla.org/' + correctAnswer.url + '$json',
             method: 'GET' 
@@ -40,8 +41,20 @@ window.onload = function () {
         console.log(answers[0]);
         for (var i = 0; i < answers.length; i++) {
             var answer = $('<input>').attr('type', 'radio').attr('id', 'answer-' + i).attr('name', 'answer');
-            var label = $('<label>').attr('for', 'answer-' + 1).text(answers[i].title);
+            var label = $('<label>').attr('for', 'answer-' + i).text(answers[i].title);
             $('.answers').append('<li>').append(answer).append(label);
         }
+
+        console.log('CORRECT ANSWER: ', correctAnswer.title);
+        $('#submit-btn').on('click', function () {
+            if (document.getElementById('answer-' + correctAnswerId).checked === true) {
+                $('#submit-btn-wrapper').html('<h2>CORRECT!<h2>');
+                $('#submit-btn').hide();
+            } else {
+                $('#submit-btn-wrapper').html('<h2>Wrong!<h2>');
+                $('#submit-btn').hide();
+                $('#answer-' + correctAnswerId).attr('checked', true);
+            }
+        })
     });
 }

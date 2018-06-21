@@ -12,6 +12,12 @@ ul {
 input[type="radio"] {
   margin: 20px; }
 
+button {
+  outline: none; }
+
+button:hover {
+  cursor: pointer; }
+
 .page-header {
   margin: 3.5rem 2rem;
   padding: 0 1em;

@@ -10,12 +10,21 @@ body {
 main {
     background-image: url("../images/mdn-bg.gif");
 }
+
 ul {
     list-style-type: none;
 }
 
 input[type="radio"] {
     margin: 20px;
+}
+
+button {
+    outline: none;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 .page-header {
