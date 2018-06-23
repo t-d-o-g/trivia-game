@@ -54,37 +54,36 @@ window.onload = function () {
     }
 
     $('#submit-btn').on('click', function () {
-        totalQuestions--;
         if (document.getElementById('answer-' + correctAnswerId).checked === true) {
             $('#right-wrong').html('<h2>Correct!<h2>');
             $('#submit-btn').hide();
             setTimeout(function () {
-                answerTimeout(true, totalQuestions);
+                answerTimeout(true);
             }, 2000);
         } else {
             $('#right-wrong').html('<h2>Wrong!<h2>');
             $('#submit-btn').hide();
             $('#answer-' + correctAnswerId).attr('checked', true);
             setTimeout(function () {
-                answerTimeout(false, totalQuestions);
+                answerTimeout(false);
             }, 2000);
         }
     });
 
-    function answerTimeout (correctAnswer, questionCount) {
-        console.log('Total Questions: ', questionCount);
+    function answerTimeout (correctAnswer) {
+        console.log('Total Questions: ', totalQuestions);
         question();
         var i = setTimeout(function () {
-            questionCount--;
-            if (questionCount === 0 || correctAnswer) {
+            if (totalQuestions <= 0 || correctAnswer) {
                 clearTimeout(i);
+                return;
             }
-            answerTimeout();
+            answerTimeout(false);
         }, 20000);
         $('.answers').empty();
         $('#right-wrong').empty();
         $('#submit-btn').show();
-        return questionCount - 1;
+        totalQuestions -= 1;
     }
-    answerTimeout(false, totalQuestions);
+    answerTimeout(false);
 }
