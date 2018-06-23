@@ -7,6 +7,7 @@ var mdnGlossary = $.ajax({
 
 window.onload = function () {
     var correctAnswerId;
+    var totalQuestions = 10;
 
     function question () {
         mdnGlossary.then(function (words) {
@@ -53,35 +54,37 @@ window.onload = function () {
     }
 
     $('#submit-btn').on('click', function () {
+        totalQuestions--;
         if (document.getElementById('answer-' + correctAnswerId).checked === true) {
             $('#right-wrong').html('<h2>Correct!<h2>');
             $('#submit-btn').hide();
-            return 1;
+            setTimeout(function () {
+                answerTimeout(true, totalQuestions);
+            }, 2000);
         } else {
             $('#right-wrong').html('<h2>Wrong!<h2>');
             $('#submit-btn').hide();
             $('#answer-' + correctAnswerId).attr('checked', true);
-            return 0;
+            setTimeout(function () {
+                answerTimeout(false, totalQuestions);
+            }, 2000);
         }
-    })
+    });
 
-    var counter = 0;
-    function timeout () {
+    function answerTimeout (correctAnswer, questionCount) {
+        console.log('Total Questions: ', questionCount);
         question();
         var i = setTimeout(function () {
-            console.log(counter);
-            // answer();
-            counter++;
-            if (counter === 9) {
-                clearInterval(i);
-                return 'done';
+            questionCount--;
+            if (questionCount === 0 || correctAnswer) {
+                clearTimeout(i);
             }
-            timeout();
-        }, 10000);
+            answerTimeout();
+        }, 20000);
         $('.answers').empty();
         $('#right-wrong').empty();
         $('#submit-btn').show();
+        return questionCount - 1;
     }
-
-    timeout();
+    answerTimeout(false, totalQuestions);
 }
