@@ -7,7 +7,31 @@ var mdnGlossary = $.ajax({
 
 window.onload = function () {
     var correctAnswerId;
-    var totalQuestions = 10;
+    var totalQuestions = 9;
+    var answersRight = 0;
+    var answersWrong = 0;
+
+    $('#submit-btn').on('click', function () {
+        totalQuestions--;
+        if (document.getElementById('answer-' + correctAnswerId).checked === true) {
+            answersRight++;
+            $('#right-wrong').html('<h2>Correct!<h2>');
+            $('#submit-btn').hide();
+            setTimeout(function () {
+                updateQuestion(19, true);
+                $('.answers').empty();
+            }, 1000);
+        } else {
+            answersWrong++;
+            $('#right-wrong').html('<h2>Wrong!<h2>');
+            $('#submit-btn').hide();
+            $('#answer-' + correctAnswerId).attr('checked', true);
+            setTimeout(function () {
+                updateQuestion(19, true);
+                $('.answers').empty();
+            }, 1000);
+        }
+    });
 
     function getQuestion () {
         mdnGlossary.then(function (words) {
@@ -49,24 +73,11 @@ window.onload = function () {
         });
     }
 
-    $('#submit-btn').on('click', function () {
-        if (document.getElementById('answer-' + correctAnswerId).checked === true) {
-            $('#right-wrong').html('<h2>Correct!<h2>');
-            $('#submit-btn').hide();
-            setTimeout(function () {
-                updateQuestion(19, true);
-                $('.answers').empty();
-            }, 1000);
-        } else {
-            $('#right-wrong').html('<h2>Wrong!<h2>');
-            $('#submit-btn').hide();
-            $('#answer-' + correctAnswerId).attr('checked', true);
-            setTimeout(function () {
-                updateQuestion(19, true);
-                $('.answers').empty();
-            }, 1000);
-        }
-    });
+    function results () {
+        $('#submit-btn-wrapper').hide();
+        $('.answers').hide();
+        $('.summary').html('<h1>Answers Right: ' + answersRight + '</h1><br><h1>Answers Wrong: ' + answersWrong + '</h1>');
+    }
 
     function updateQuestion (duration, answerSubmitted) {
         var start = Date.now(), diff, seconds;
@@ -78,24 +89,31 @@ window.onload = function () {
             diff = duration - (((Date.now() - start) / 1000) | 0);
             seconds = (diff % 60) | 0;
 
-            if (seconds === 0) {
-                $('.answers').empty();
-                clearInterval(intId);
-                updateQuestion(20, false);
-                totalQuestions--;
-            }
-
-            if (answerSubmitted) {
-                for (var i = 1; i < intId; i++) {
-                    clearInterval(i);
-                }
-            }
-            
-            if (totalQuestions <= 0) {
+            if (totalQuestions < 0) {
                 for (var i = 1; i <= intId; i++) {
                     clearInterval(i);
                 }
+                setTimeout(function () {
+                    results();
+                }, 1000);
                 return;
+            } else {
+                if (seconds === 0) {
+                    answersWrong++;
+                    totalQuestions--;
+                    $('#right-wrong').html('<h2>Wrong!<h2>');
+                    $('#submit-btn').hide();
+                    $('#answer-' + correctAnswerId).attr('checked', true);
+                    setTimeout(function () {
+                        updateQuestion(19, true);
+                        $('.answers').empty();
+                    }, 1000);
+                    clearInterval(intId);
+                } else if (answerSubmitted) {
+                    for (var i = 1; i < intId; i++) {
+                        clearInterval(i);
+                    }
+                }
             } 
 
             $('#seconds').remove();
@@ -107,7 +125,9 @@ window.onload = function () {
         }; 
 
         $('#right-wrong').empty();
-        $('#submit-btn').show();
+        if (totalQuestions >= 0) {
+            $('#submit-btn').show();
+        }
     }
 
     updateQuestion(19, false);
