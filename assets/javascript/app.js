@@ -7,7 +7,7 @@ var mdnGlossary = $.ajax({
 
 window.onload = function () {
     var correctAnswerId;
-    var totalQuestions = 10;
+    var totalQuestions = 3;
     var answersRight = 0;
     var answersWrong = 0;
 
@@ -76,14 +76,13 @@ window.onload = function () {
     function results () {
         $('.answers').hide();
         var playAgainBtn = $('<button id="play-btn">').text('Play Again!');
-        playAgainBtn.addClass('text-center');
         $('#right-wrong').hide();
         $('.summary').html('<h1>Answers Right: ' + answersRight + '</h1><br><h1>Answers Wrong: ' + answersWrong + '</h1>');
         $('.summary').append(playAgainBtn);
         $('#play-btn').on('click', function () {
             $(this).hide();
             $('.answers').show();
-            totalQuestions = 10;
+            totalQuestions = 3;
             answersRight = 0;
             answersWrong = 0;
             updateQuestion(19, true);
