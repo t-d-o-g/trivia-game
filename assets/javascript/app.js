@@ -11,6 +11,7 @@ window.onload = function () {
     var answersRight = 0;
     var answersWrong = 0;
 
+    $('#right-wrong').show();
     $('#submit-btn').on('click', function () {
         totalQuestions--;
         if (document.getElementById('answer-' + correctAnswerId).checked === true) {
@@ -74,12 +75,21 @@ window.onload = function () {
     }
 
     function results () {
-        $('#submit-btn-wrapper').hide();
         $('.answers').hide();
+        $('#right-wrong').hide();
         $('.summary').html('<h1>Answers Right: ' + answersRight + '</h1><br><h1>Answers Wrong: ' + answersWrong + '</h1>');
+        $('#submit-btn').text('Play Again!');
+        $('#submit-btn').one('click', function () {
+            $('#submit-btn').text('Submit Answer ');
+            $('.answers').show();
+            totalQuestions = 9;
+            answersRight = 0;
+            answersWrong = 0;
+        });
     }
 
     function updateQuestion (duration, answerSubmitted) {
+        console.log('Total Questions ', totalQuestions);
         var start = Date.now(), diff, seconds;
         var intId = setInterval(timer, 1000);
         timer();
@@ -125,9 +135,9 @@ window.onload = function () {
         }; 
 
         $('#right-wrong').empty();
-        if (totalQuestions >= 0) {
+        // if (totalQuestions >= 0) {
             $('#submit-btn').show();
-        }
+        // }
     }
 
     updateQuestion(19, false);
