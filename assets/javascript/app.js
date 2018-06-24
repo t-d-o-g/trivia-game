@@ -31,7 +31,6 @@ window.onload = function () {
             });
 
             answerSummary = correctAnswerJson.then(function (answer) {
-                // console.log(answer);
                 var filteredTitle = answer.title.replace(/ *\([^)]*\) */g, "").toLowerCase();
                 var re = new RegExp(filteredTitle, 'gi');
                 var filteredSummary = answer.summary.replace(re, ' ? '); 
@@ -42,14 +41,11 @@ window.onload = function () {
                 $('.summary').html(summary);
             });
 
-            // console.log(answers[0]);
             for (var i = 0; i < answers.length; i++) {
                 var answer = $('<input>').attr('type', 'radio').attr('id', 'answer-' + i).attr('name', 'answer');
                 var label = $('<label>').attr('for', 'answer-' + i).text(answers[i].title);
                 $('.answers').append('<li>').append(answer).append(label);
             }
-
-            // console.log('CORRECT ANSWER: ', correctAnswer.title);
         });
     }
 
@@ -58,14 +54,16 @@ window.onload = function () {
             $('#right-wrong').html('<h2>Correct!<h2>');
             $('#submit-btn').hide();
             setTimeout(function () {
-                updateQuestion(20, display, true);
+                updateQuestion(19, display, true);
+                $('.answers').empty();
             }, 1000);
         } else {
             $('#right-wrong').html('<h2>Wrong!<h2>');
             $('#submit-btn').hide();
             $('#answer-' + correctAnswerId).attr('checked', true);
             setTimeout(function () {
-                updateQuestion(20, display, true);
+                updateQuestion(19, display, true);
+                $('.answers').empty();
             }, 1000);
         }
     });
@@ -75,20 +73,11 @@ window.onload = function () {
         var intId = setInterval(timer, 1000);
         timer();
 
-                getQuestion();
+        getQuestion();
         function timer() {
             diff = duration - (((Date.now() - start) / 1000) | 0);
             seconds = (diff % 60) | 0;
             console.log('Seconds: ', seconds);
-
-            // seconds = seconds < 10 ? '0' + seconds : seconds;
-            if (seconds === 20) {
-                // $('.answers').empty();
-                // clearInterval(intId);
-                // getQuestion();
-                // console.log('Total Questions: ', totalQuestions);
-                // totalQuestions--;
-            } 
 
             if (seconds === 0) {
                 $('.answers').empty();
@@ -112,7 +101,8 @@ window.onload = function () {
                 return;
             } 
 
-            $('#submit-btn').text("Submit Answer " + seconds);
+            $('#seconds').remove();
+            $('#submit-btn').append('<span id="seconds">' + seconds + '</span>');
 
             if (diff <= 0) {
                 start = Date.now() + 1000;

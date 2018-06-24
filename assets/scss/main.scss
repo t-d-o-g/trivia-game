@@ -24,7 +24,7 @@ button {
     width: 150px;
     height: 50px;
     background-color: #222;
-    color: $mdn-blue;
+    color: #fff;
 }
 
 button:hover {
@@ -49,4 +49,12 @@ button:hover {
 
 .summary {
     margin: 5%;
+}
+
+.answers {
+    height: 100%;
+}
+
+#seconds {
+    color: $mdn-blue;
 }
