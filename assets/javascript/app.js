@@ -114,7 +114,7 @@ window.onload = function () {
             if (seconds === 0) {
                 answersWrong++;
                 totalQuestions--;
-                $('#right-wrong').html('<h2>Wrong!<h2>');
+                $('#right-wrong').html('<h2>Time Up!<h2>');
                 $('#submit-btn').hide();
                 $('#answer-' + correctAnswerId).attr('checked', true);
                 setTimeout(function () {
