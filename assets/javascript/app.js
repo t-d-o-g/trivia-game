@@ -77,7 +77,7 @@ window.onload = function () {
         $('.answers').hide();
         var playAgainBtn = $('<button id="play-btn">').text('Play Again!');
         $('#right-wrong').hide();
-        $('.summary').html('<h1>Answers Right: ' + answersRight + '</h1><br><h1>Answers Wrong: ' + answersWrong + '</h1>');
+        $('.summary').html('<h2>Answers Right: ' + answersRight + '</h2><br><h2>Answers Wrong: ' + answersWrong + '</h2>');
         $('.summary').append(playAgainBtn);
         $('#play-btn').on('click', function () {
             $(this).hide();
