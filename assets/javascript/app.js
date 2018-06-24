@@ -9,7 +9,7 @@ window.onload = function () {
     var correctAnswerId;
     var totalQuestions = 10;
 
-    function question () {
+    function getQuestion () {
         mdnGlossary.then(function (words) {
             var answers = [];
             var glossaryWord = {};
@@ -31,7 +31,7 @@ window.onload = function () {
             });
 
             answerSummary = correctAnswerJson.then(function (answer) {
-                console.log(answer);
+                // console.log(answer);
                 var filteredTitle = answer.title.replace(/ *\([^)]*\) */g, "").toLowerCase();
                 var re = new RegExp(filteredTitle, 'gi');
                 var filteredSummary = answer.summary.replace(re, ' ? '); 
@@ -42,14 +42,14 @@ window.onload = function () {
                 $('.summary').html(summary);
             });
 
-            console.log(answers[0]);
+            // console.log(answers[0]);
             for (var i = 0; i < answers.length; i++) {
                 var answer = $('<input>').attr('type', 'radio').attr('id', 'answer-' + i).attr('name', 'answer');
                 var label = $('<label>').attr('for', 'answer-' + i).text(answers[i].title);
                 $('.answers').append('<li>').append(answer).append(label);
             }
 
-            console.log('CORRECT ANSWER: ', correctAnswer.title);
+            // console.log('CORRECT ANSWER: ', correctAnswer.title);
         });
     }
 
@@ -58,32 +58,71 @@ window.onload = function () {
             $('#right-wrong').html('<h2>Correct!<h2>');
             $('#submit-btn').hide();
             setTimeout(function () {
-                answerTimeout(true);
-            }, 2000);
+                updateQuestion(20, display, true);
+            }, 1000);
         } else {
             $('#right-wrong').html('<h2>Wrong!<h2>');
             $('#submit-btn').hide();
             $('#answer-' + correctAnswerId).attr('checked', true);
             setTimeout(function () {
-                answerTimeout(false);
-            }, 2000);
+                updateQuestion(20, display, true);
+            }, 1000);
         }
     });
 
-    function answerTimeout (correctAnswer) {
-        console.log('Total Questions: ', totalQuestions);
-        question();
-        var i = setTimeout(function () {
-            if (totalQuestions <= 0 || correctAnswer) {
-                clearTimeout(i);
-                return;
+    function updateQuestion (duration, display, answerSubmitted) {
+        var start = Date.now(), diff, seconds;
+        var intId = setInterval(timer, 1000);
+        timer();
+
+                getQuestion();
+        function timer() {
+            diff = duration - (((Date.now() - start) / 1000) | 0);
+            seconds = (diff % 60) | 0;
+            console.log('Seconds: ', seconds);
+
+            // seconds = seconds < 10 ? '0' + seconds : seconds;
+            if (seconds === 20) {
+                // $('.answers').empty();
+                // clearInterval(intId);
+                // getQuestion();
+                // console.log('Total Questions: ', totalQuestions);
+                // totalQuestions--;
+            } 
+
+            if (seconds === 0) {
+                $('.answers').empty();
+                clearInterval(intId);
+                updateQuestion(20, display, false);
+                console.log('Total Questions: ', totalQuestions);
+                totalQuestions--;
+                console.log('Clearing ID');
             }
-            answerTimeout(false);
-        }, 20000);
-        $('.answers').empty();
+
+            if (answerSubmitted) {
+                for (var i = 1; i < intId; i++) {
+                    clearInterval(i);
+                }
+            }
+            
+            if (totalQuestions <= 0) {
+                for (var i = 1; i <= intId; i++) {
+                    clearInterval(i);
+                }
+                return;
+            } 
+
+            $('#submit-btn').text("Submit Answer " + seconds);
+
+            if (diff <= 0) {
+                start = Date.now() + 1000;
+            }
+        }; 
+        // $('.answers').empty();
         $('#right-wrong').empty();
         $('#submit-btn').show();
-        totalQuestions -= 1;
     }
-    answerTimeout(false);
+
+    display = document.querySelector('#countdown'); 
+    updateQuestion(19, display, false);
 }

@@ -13,7 +13,11 @@ input[type="radio"] {
   margin: 20px; }
 
 button {
-  outline: none; }
+  outline: none;
+  width: 150px;
+  height: 50px;
+  background-color: #222;
+  color: #83d0f2; }
 
 button:hover {
   cursor: pointer; }
@@ -21,7 +25,7 @@ button:hover {
 .page-header {
   margin: 3.5rem 2rem;
   padding: 0 1em;
-  background-color: #000;
+  background-color: #222;
   color: #fff; }
 
 .page-header h1 {
