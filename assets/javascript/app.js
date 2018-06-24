@@ -54,7 +54,7 @@ window.onload = function () {
             $('#right-wrong').html('<h2>Correct!<h2>');
             $('#submit-btn').hide();
             setTimeout(function () {
-                updateQuestion(19, display, true);
+                updateQuestion(19, true);
                 $('.answers').empty();
             }, 1000);
         } else {
@@ -62,13 +62,13 @@ window.onload = function () {
             $('#submit-btn').hide();
             $('#answer-' + correctAnswerId).attr('checked', true);
             setTimeout(function () {
-                updateQuestion(19, display, true);
+                updateQuestion(19, true);
                 $('.answers').empty();
             }, 1000);
         }
     });
 
-    function updateQuestion (duration, display, answerSubmitted) {
+    function updateQuestion (duration, answerSubmitted) {
         var start = Date.now(), diff, seconds;
         var intId = setInterval(timer, 1000);
         timer();
@@ -77,15 +77,12 @@ window.onload = function () {
         function timer() {
             diff = duration - (((Date.now() - start) / 1000) | 0);
             seconds = (diff % 60) | 0;
-            console.log('Seconds: ', seconds);
 
             if (seconds === 0) {
                 $('.answers').empty();
                 clearInterval(intId);
-                updateQuestion(20, display, false);
-                console.log('Total Questions: ', totalQuestions);
+                updateQuestion(20, false);
                 totalQuestions--;
-                console.log('Clearing ID');
             }
 
             if (answerSubmitted) {
@@ -108,11 +105,10 @@ window.onload = function () {
                 start = Date.now() + 1000;
             }
         }; 
-        // $('.answers').empty();
+
         $('#right-wrong').empty();
         $('#submit-btn').show();
     }
 
-    display = document.querySelector('#countdown'); 
-    updateQuestion(19, display, false);
+    updateQuestion(19, false);
 }
