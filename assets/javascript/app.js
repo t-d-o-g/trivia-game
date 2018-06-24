@@ -7,7 +7,7 @@ var mdnGlossary = $.ajax({
 
 window.onload = function () {
     var correctAnswerId;
-    var totalQuestions = 3;
+    var totalQuestions = 10;
     var answersRight = 0;
     var answersWrong = 0;
 
@@ -82,7 +82,7 @@ window.onload = function () {
         $('#play-btn').on('click', function () {
             $(this).hide();
             $('.answers').show();
-            totalQuestions = 3;
+            totalQuestions = 10;
             answersRight = 0;
             answersWrong = 0;
             updateQuestion(19, true);
