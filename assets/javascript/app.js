@@ -7,11 +7,10 @@ var mdnGlossary = $.ajax({
 
 window.onload = function () {
     var correctAnswerId;
-    var totalQuestions = 9;
+    var totalQuestions = 10;
     var answersRight = 0;
     var answersWrong = 0;
 
-    $('#right-wrong').show();
     $('#submit-btn').on('click', function () {
         totalQuestions--;
         if (document.getElementById('answer-' + correctAnswerId).checked === true) {
@@ -76,55 +75,59 @@ window.onload = function () {
 
     function results () {
         $('.answers').hide();
+        var playAgainBtn = $('<button id="play-btn">').text('Play Again!');
+        playAgainBtn.addClass('text-center');
         $('#right-wrong').hide();
         $('.summary').html('<h1>Answers Right: ' + answersRight + '</h1><br><h1>Answers Wrong: ' + answersWrong + '</h1>');
-        $('#submit-btn').text('Play Again!');
-        $('#submit-btn').one('click', function () {
-            $('#submit-btn').text('Submit Answer ');
+        $('.summary').append(playAgainBtn);
+        $('#play-btn').on('click', function () {
+            $(this).hide();
             $('.answers').show();
-            totalQuestions = 9;
+            totalQuestions = 10;
             answersRight = 0;
             answersWrong = 0;
+            updateQuestion(19, true);
+            $('#right-wrong').show();
         });
     }
 
     function updateQuestion (duration, answerSubmitted) {
-        console.log('Total Questions ', totalQuestions);
         var start = Date.now(), diff, seconds;
         var intId = setInterval(timer, 1000);
         timer();
 
-        getQuestion();
+        if (totalQuestions > 0) {
+            getQuestion();
+        } else {
+            for (var i = 1; i <= intId; i++) {
+                clearInterval(i);
+            }
+            setTimeout(function () {
+                results();
+            }, 1000);
+            return;
+        }
+
         function timer() {
             diff = duration - (((Date.now() - start) / 1000) | 0);
             seconds = (diff % 60) | 0;
 
-            if (totalQuestions < 0) {
-                for (var i = 1; i <= intId; i++) {
+            if (seconds === 0) {
+                answersWrong++;
+                totalQuestions--;
+                $('#right-wrong').html('<h2>Wrong!<h2>');
+                $('#submit-btn').hide();
+                $('#answer-' + correctAnswerId).attr('checked', true);
+                setTimeout(function () {
+                    updateQuestion(19, true);
+                    $('.answers').empty();
+                }, 1000);
+                clearInterval(intId);
+            } else if (answerSubmitted) {
+                for (var i = 1; i < intId; i++) {
                     clearInterval(i);
                 }
-                setTimeout(function () {
-                    results();
-                }, 1000);
-                return;
-            } else {
-                if (seconds === 0) {
-                    answersWrong++;
-                    totalQuestions--;
-                    $('#right-wrong').html('<h2>Wrong!<h2>');
-                    $('#submit-btn').hide();
-                    $('#answer-' + correctAnswerId).attr('checked', true);
-                    setTimeout(function () {
-                        updateQuestion(19, true);
-                        $('.answers').empty();
-                    }, 1000);
-                    clearInterval(intId);
-                } else if (answerSubmitted) {
-                    for (var i = 1; i < intId; i++) {
-                        clearInterval(i);
-                    }
-                }
-            } 
+            }
 
             $('#seconds').remove();
             $('#submit-btn').append('<span id="seconds">' + seconds + '</span>');
@@ -135,9 +138,7 @@ window.onload = function () {
         }; 
 
         $('#right-wrong').empty();
-        // if (totalQuestions >= 0) {
-            $('#submit-btn').show();
-        // }
+        $('#submit-btn').show();
     }
 
     updateQuestion(19, false);
